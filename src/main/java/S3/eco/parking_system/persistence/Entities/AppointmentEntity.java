@@ -26,6 +26,12 @@ public class AppointmentEntity {
     @Column
     private String employee;
 
+    @Column
+    private String guestEmail;
+
+    @Column
+    private String employeeEmail;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
