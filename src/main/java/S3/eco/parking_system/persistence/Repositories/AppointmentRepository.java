@@ -18,7 +18,17 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
 
     Optional<AppointmentEntity> findByEmployee(String employee);
 
+    Optional<AppointmentEntity> findByEmployeeEmail(String employeeEmail);
+
+    Optional<AppointmentEntity> findByGuest(String guest);
+
+    Optional<AppointmentEntity> findByGuestEmail(String guestEmail);
+
     Optional<AppointmentEntity> findByDatetime(LocalDateTime dateTime);
 
     Optional<AppointmentEntity> findByCarPlateNumber(String carPlateNumber);
+
+    AppointmentEntity findAllByDatetimeAndEmployeeEmailAndGuest(LocalDateTime dateTime, String employeeEmail, String Guest);
+
+    boolean existsByDatetimeAndEmployeeEmailAndGuest(LocalDateTime dateTime, String employeeEmail, String Guest);
 }

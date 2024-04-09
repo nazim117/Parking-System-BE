@@ -1,13 +1,13 @@
-package S3.eco.parking_system.business.impl;
+package S3.eco.parking_system.business.NotificationsService.impl;
 
-import S3.eco.parking_system.business.EmailSenderService;
+import S3.eco.parking_system.business.NotificationsService.EmailSenderUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmailSenderServiceImpl  implements EmailSenderService {
+public class EmailSenderUseCaseImpl implements EmailSenderUseCase {
     @Autowired
     private JavaMailSender mailSender;
 

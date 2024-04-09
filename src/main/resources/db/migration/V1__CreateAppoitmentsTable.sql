@@ -6,5 +6,5 @@ CREATE TABLE appointments (
     guest_email VARCHAR(255),
     employee_email VARCHAR(255),
     description TEXT,
-    carPlateNumber VARCHAR(20)
+    car_plate_number VARCHAR(20)
 );

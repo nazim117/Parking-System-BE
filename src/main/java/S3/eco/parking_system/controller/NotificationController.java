@@ -1,9 +1,8 @@
 package S3.eco.parking_system.controller;
 
-import S3.eco.parking_system.business.EmailSenderService;
+import S3.eco.parking_system.business.NotificationsService.EmailSenderUseCase;
 import S3.eco.parking_system.utils.EmailMessages;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/notifications")
 @AllArgsConstructor
 public class NotificationController {
-    private final EmailSenderService emailSenderService;
+    private final EmailSenderUseCase emailSenderService;
 
     // testing method
     @GetMapping("sendEmail")
