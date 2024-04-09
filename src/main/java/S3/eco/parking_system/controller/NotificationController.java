@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class NotificationController {
     private final EmailSenderService emailSenderService;
 
+    // testing method
     @GetMapping("sendEmail")
     public void sendEmail(){
         emailSenderService.sendEmail(getEmail(), EmailMessages.APPOINTMENT_CONFIRMATION_SUBJECT, EmailMessages.APPOINTMENT_CONFIRMATION_BODY);
