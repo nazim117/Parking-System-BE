@@ -1,6 +1,6 @@
 package S3.eco.parking_system.business.AppointmentsService.Impl;
 
-import S3.eco.parking_system.business.AppointmentsService.AppointmentsEditUseCase;
+import S3.eco.parking_system.business.AppointmentsService.Interfaces.EditAppointmentsUseCase;
 import S3.eco.parking_system.business.AppointmentsService.Exceptions.AppointmentNotFoundException;
 import S3.eco.parking_system.domain.Appointmets.EditAppointmentRequest;
 import S3.eco.parking_system.persistence.Entities.AppointmentEntity;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class AppointmentsEditUseCaseImpl implements AppointmentsEditUseCase {
+public class EditAppointmentsUseCaseImpl implements EditAppointmentsUseCase {
     private final AppointmentRepository appointmentRepository;
 
     @Override

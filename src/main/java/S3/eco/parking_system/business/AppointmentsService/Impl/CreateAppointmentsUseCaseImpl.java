@@ -1,6 +1,6 @@
 package S3.eco.parking_system.business.AppointmentsService.Impl;
 
-import S3.eco.parking_system.business.AppointmentsService.AppointmentsCreateUseCase;
+import S3.eco.parking_system.business.AppointmentsService.Interfaces.CreateAppointmentsUseCase;
 import S3.eco.parking_system.business.AppointmentsService.Exceptions.AppointmentAlreadyExistsException;
 import S3.eco.parking_system.domain.Appointmets.CreateAppointmentRequest;
 import S3.eco.parking_system.persistence.Entities.AppointmentEntity;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
 @Service
-public class AppointmentsCreateUseCaseImpl implements AppointmentsCreateUseCase {
+public class CreateAppointmentsUseCaseImpl implements CreateAppointmentsUseCase {
 
     private final AppointmentRepository appointmentRepository;
 

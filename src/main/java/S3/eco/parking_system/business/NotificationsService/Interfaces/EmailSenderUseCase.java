@@ -1,4 +1,4 @@
-package S3.eco.parking_system.business.NotificationsService;
+package S3.eco.parking_system.business.NotificationsService.Interfaces;
 
 public interface EmailSenderUseCase {
     public void sendEmail(String toEmail, String subject, String body);

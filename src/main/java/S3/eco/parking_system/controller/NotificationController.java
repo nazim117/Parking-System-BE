@@ -1,6 +1,6 @@
 package S3.eco.parking_system.controller;
 
-import S3.eco.parking_system.business.NotificationsService.EmailSenderUseCase;
+import S3.eco.parking_system.business.NotificationsService.Interfaces.EmailSenderUseCase;
 import S3.eco.parking_system.utils.EmailMessages;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,11 +1,11 @@
-package S3.eco.parking_system.business.AppointmentsService;
+package S3.eco.parking_system.business.AppointmentsService.Interfaces;
 
 import S3.eco.parking_system.domain.Appointmets.AppointmentData;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface AppointmentsGetUseCase {
+public interface GetAppointmentsUseCase {
     List<AppointmentData> getAll();
 
     AppointmentData getById(Long aLong);

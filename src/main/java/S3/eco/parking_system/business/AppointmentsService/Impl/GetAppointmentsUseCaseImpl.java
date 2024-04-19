@@ -1,6 +1,6 @@
 package S3.eco.parking_system.business.AppointmentsService.Impl;
 
-import S3.eco.parking_system.business.AppointmentsService.AppointmentsGetUseCase;
+import S3.eco.parking_system.business.AppointmentsService.Interfaces.GetAppointmentsUseCase;
 import S3.eco.parking_system.business.AppointmentsService.Exceptions.AppointmentNotFoundException;
 import S3.eco.parking_system.domain.Appointmets.AppointmentData;
 import S3.eco.parking_system.persistence.Entities.AppointmentEntity;
@@ -16,7 +16,7 @@ import static S3.eco.parking_system.business.AppointmentsService.Utils.Converter
 
 @Service
 @AllArgsConstructor
-public class AppointmentsGetUseCaseImpl implements AppointmentsGetUseCase {
+public class GetAppointmentsUseCaseImpl implements GetAppointmentsUseCase {
     private final AppointmentRepository appointmentRepository;
 
     @Override
