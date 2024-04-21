@@ -116,6 +116,18 @@ spring.jpa.hibernate.ddl-auto=update
     ```
     api/appointments
     ```
+  *Body:*
+  ```json
+  {
+        "datetime": "2024-04-11T11:18:00",
+        "guest": "Danila Solovenko",
+        "employee": "Cooler Solovenko",
+        "guestEmail": "Sol@example.com",
+        "employeeEmail": "Cool@example.com",
+        "description": "smth",
+        "carPlateNumber": "DEF451"
+  }
+  ```
   *Response:*
     ```json
     6
