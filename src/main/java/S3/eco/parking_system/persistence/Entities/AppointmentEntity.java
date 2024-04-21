@@ -17,7 +17,7 @@ public class AppointmentEntity {
     @Column
     private Long id;
 
-    @Column
+    @Column(name = "datetime")
     private LocalDateTime datetime;
 
     @Column

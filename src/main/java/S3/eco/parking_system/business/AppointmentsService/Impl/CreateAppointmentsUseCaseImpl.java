@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 @Service
 public class CreateAppointmentsUseCaseImpl implements CreateAppointmentsUseCase {
-
     private final AppointmentRepository appointmentRepository;
 
     @Override

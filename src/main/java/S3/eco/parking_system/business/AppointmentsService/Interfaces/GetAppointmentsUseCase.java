@@ -20,5 +20,7 @@ public interface GetAppointmentsUseCase {
 
     AppointmentData getByDatetime(LocalDateTime dateTime);
 
+    List<AppointmentData> getAppointmentsByYearAndMonth(int year, int month);
+
     AppointmentData getByCarPlateNumber(String carPlateNumber);
 }
