@@ -36,6 +36,7 @@ public class AppointmentsController {
         }
     }
 
+
     @GetMapping("/pages")
     public ResponseEntity<Page<AppointmentData>> getAppointmentPage(@RequestParam(value = "page") Integer page,
                                                                     @RequestParam(value = "pageSize") Integer pageSize) {
