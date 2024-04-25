@@ -93,4 +93,19 @@ public class GetAppointmentsUseCaseImpl implements GetAppointmentsUseCase {
         AppointmentEntity appointmentEntity = appointmentOptional.orElseThrow(() -> new AppointmentNotFoundException("Appointment not found for car plate number: " + carPlateNumber));
         return converter.convertToAppointmentData(appointmentEntity);
     }
+
+    @Override
+    public List<AppointmentData> getAppointmentsByUniversalSearch(String searchString){
+
+        List<AppointmentEntity> appointments = appointmentRepository.searchAppointmentEntityBy(searchString);
+
+        if (appointments.isEmpty()) {
+            throw new AppointmentNotFoundException("No appointments found");
+        }
+
+        return appointments.stream()
+                .map(converter::convertToAppointmentData)
+                .collect(Collectors.toList());
+    }
+
 }

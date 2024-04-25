@@ -1,4 +1,4 @@
-CREATE TABLE appointments (
+CREATE TABLE if not exists appointments (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     datetime DATETIME,
     guest VARCHAR(255),

@@ -23,4 +23,6 @@ public interface GetAppointmentsUseCase {
     List<AppointmentData> getAppointmentsByYearAndMonth(int year, int month);
 
     AppointmentData getByCarPlateNumber(String carPlateNumber);
+
+    List<AppointmentData> getAppointmentsByUniversalSearch(String searchString);
 }

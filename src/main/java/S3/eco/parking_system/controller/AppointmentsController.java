@@ -25,7 +25,6 @@ public class AppointmentsController {
     private final DeleteAppointmentsUseCase deleteAppointmentsUseCase;
     private final EditAppointmentsUseCase editAppointmentsUseCase;
     private final GetPaginatedAppointmentsUseCase getPaginatedAppointmentsUseCase;
-
     @GetMapping()
     public ResponseEntity<List<AppointmentData>> getAllAppointment() {
         try {
@@ -69,6 +68,18 @@ public class AppointmentsController {
             return ResponseEntity.ok(appointment);
         } catch (AppointmentNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchAppointment(@RequestParam(value = "searchString") String searchString) {
+        try {
+            List<AppointmentData> appointments = getAppointmentsUseCase.getAppointmentsByUniversalSearch(searchString);
+            return new ResponseEntity<>(appointments, HttpStatus.OK);
+        } catch (AppointmentNotFoundException e) {
+            return new ResponseEntity<>("No appointments found", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

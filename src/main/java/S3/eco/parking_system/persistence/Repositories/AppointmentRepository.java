@@ -37,6 +37,15 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
             @Param("month") int month
     );
 
+    @Query("SELECT a FROM S3.eco.parking_system.persistence.Entities.AppointmentEntity a WHERE " +
+            "LOWER(a.employeeEmail) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
+            "LOWER(a.guestEmail) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
+            "LOWER(a.carPlateNumber) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
+            "LOWER(a.description) LIKE LOWER(CONCAT('%', :searchString, '%'))")
+    List<AppointmentEntity> searchAppointmentEntityBy(
+            @Param("searchString") String searchString
+    );
+
     Optional<AppointmentEntity> findByCarPlateNumber(String carPlateNumber);
 
     AppointmentEntity findAllByDatetimeAndEmployeeEmailAndGuest(LocalDateTime dateTime, String employeeEmail, String Guest);
