@@ -16,7 +16,7 @@ import java.util.Optional;
 @Repository
 public interface AppointmentRepository extends JpaRepository<AppointmentEntity, Long> {
     List<AppointmentEntity> findAll();
-
+//
     Page<AppointmentEntity> findAllByOrderByDatetimeDesc(Pageable pageable);
 
     Optional<AppointmentEntity> findById(Long aLong);
