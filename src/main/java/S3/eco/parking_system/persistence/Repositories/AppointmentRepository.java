@@ -38,12 +38,15 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
     );
 
     @Query("SELECT a FROM S3.eco.parking_system.persistence.Entities.AppointmentEntity a WHERE " +
+            "LOWER(a.employee) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
             "LOWER(a.employeeEmail) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
+            "LOWER(a.guest) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
             "LOWER(a.guestEmail) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
             "LOWER(a.carPlateNumber) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
             "LOWER(a.description) LIKE LOWER(CONCAT('%', :searchString, '%'))")
-    List<AppointmentEntity> searchAppointmentEntityBy(
-            @Param("searchString") String searchString
+    Page<AppointmentEntity> searchAppointmentEntityBy(
+            @Param("searchString") String searchString,
+            Pageable pageable
     );
 
     Optional<AppointmentEntity> findByCarPlateNumber(String carPlateNumber);
