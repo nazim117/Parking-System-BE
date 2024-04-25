@@ -12,6 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class GetPaginatedAppointmentsUseCaseImpl implements GetPaginatedAppointmentsUseCase {
@@ -27,5 +30,18 @@ public class GetPaginatedAppointmentsUseCaseImpl implements GetPaginatedAppointm
         }
 
         return appointmentPage.map(converter::convertToAppointmentData);
+    }
+
+    @Override
+    public Page<AppointmentData> getAppointmentsByUniversalSearch(int pageNumber, int pageSize, String searchString){
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<AppointmentEntity> appointmentPage = appointmentRepository.searchAppointmentEntityBy(searchString, pageable);
+
+        if (appointmentPage.isEmpty()) {
+            throw new AppointmentNotFoundException("No appointments found on page: " + pageNumber);
+        }
+
+        return appointmentPage.map(converter::convertToAppointmentData);
+
     }
 }

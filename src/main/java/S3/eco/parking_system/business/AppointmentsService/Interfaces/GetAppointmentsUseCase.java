@@ -24,5 +24,4 @@ public interface GetAppointmentsUseCase {
 
     AppointmentData getByCarPlateNumber(String carPlateNumber);
 
-    List<AppointmentData> getAppointmentsByUniversalSearch(String searchString);
 }

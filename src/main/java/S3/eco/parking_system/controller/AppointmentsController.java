@@ -72,14 +72,15 @@ public class AppointmentsController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchAppointment(@RequestParam(value = "searchString") String searchString) {
+    public ResponseEntity<Page<AppointmentData>> searchAppointment(
+            @RequestParam(value = "page") Integer page,
+            @RequestParam(value = "pageSize") Integer pageSize,
+            @RequestParam(value = "searchString") String searchString) {
         try {
-            List<AppointmentData> appointments = getAppointmentsUseCase.getAppointmentsByUniversalSearch(searchString);
-            return new ResponseEntity<>(appointments, HttpStatus.OK);
+            Page<AppointmentData> appointmentsPage = getPaginatedAppointmentsUseCase.getAppointmentsByUniversalSearch(page, pageSize, searchString);
+            return new ResponseEntity<>(appointmentsPage, HttpStatus.OK);
         } catch (AppointmentNotFoundException e) {
-            return new ResponseEntity<>("No appointments found", HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(getPaginatedAppointmentsUseCase.getAppointmentsByUniversalSearch(0, pageSize, ""), HttpStatus.OK);
         }
     }
 
