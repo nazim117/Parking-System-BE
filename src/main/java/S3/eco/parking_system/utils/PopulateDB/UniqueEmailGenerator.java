@@ -1,4 +1,4 @@
-package S3.eco.parking_system.utils;
+package S3.eco.parking_system.utils.PopulateDB;
 
 import java.util.ArrayList;
 import java.util.HashSet;

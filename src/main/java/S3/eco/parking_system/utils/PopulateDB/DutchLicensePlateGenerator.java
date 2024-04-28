@@ -1,4 +1,4 @@
-package S3.eco.parking_system.utils;
+package S3.eco.parking_system.utils.PopulateDB;
 
 import java.util.*;
 
@@ -50,5 +50,3 @@ public enum DutchLicensePlateGenerator {
         licensePlates.forEach(System.out::println);
     }
 }
-
-
