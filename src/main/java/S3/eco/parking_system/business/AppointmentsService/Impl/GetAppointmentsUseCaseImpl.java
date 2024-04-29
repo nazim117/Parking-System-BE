@@ -40,20 +40,6 @@ public class GetAppointmentsUseCaseImpl implements GetAppointmentsUseCase {
     }
 
     @Override
-    public AppointmentData getByEmployee(String employee) {
-        Optional<AppointmentEntity> appointmentOptional = appointmentRepository.findByEmployee(employee);
-        AppointmentEntity appointmentEntity = appointmentOptional.orElseThrow(() -> new AppointmentNotFoundException("Appointment not found for employee: " + employee));
-        return converter.convertToAppointmentData(appointmentEntity);
-    }
-
-    @Override
-    public AppointmentData getByEmployeeEmail(String employeeEmail) {
-        Optional<AppointmentEntity> appointmentOptional = appointmentRepository.findByEmployeeEmail(employeeEmail);
-        AppointmentEntity appointmentEntity = appointmentOptional.orElseThrow(() -> new AppointmentNotFoundException("Appointment not found for employee email: " + employeeEmail));
-        return converter.convertToAppointmentData(appointmentEntity);
-    }
-
-    @Override
     public AppointmentData getByGuest(String guest) {
         Optional<AppointmentEntity> appointmentOptional = appointmentRepository.findByGuest(guest);
         AppointmentEntity appointmentEntity = appointmentOptional.orElseThrow(() -> new AppointmentNotFoundException("Appointment not found for guest: " + guest));

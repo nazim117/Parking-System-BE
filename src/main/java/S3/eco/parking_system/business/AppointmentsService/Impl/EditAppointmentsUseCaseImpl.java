@@ -2,25 +2,36 @@ package S3.eco.parking_system.business.AppointmentsService.Impl;
 
 import S3.eco.parking_system.business.AppointmentsService.Interfaces.EditAppointmentsUseCase;
 import S3.eco.parking_system.business.AppointmentsService.Exceptions.AppointmentNotFoundException;
+import S3.eco.parking_system.business.EmployeeService.Exceptions.EmployeeNotFoundException;
 import S3.eco.parking_system.domain.Appointmets.EditAppointmentRequest;
 import S3.eco.parking_system.persistence.Entities.AppointmentEntity;
+import S3.eco.parking_system.persistence.Entities.EmployeeEntity;
 import S3.eco.parking_system.persistence.Repositories.AppointmentRepository;
+import S3.eco.parking_system.persistence.Repositories.EmployeeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class EditAppointmentsUseCaseImpl implements EditAppointmentsUseCase {
     private final AppointmentRepository appointmentRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Override
     public void editAppointment(Long appointmentId, EditAppointmentRequest request) {
         AppointmentEntity appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found with id: " + appointmentId));
 
+        Optional<EmployeeEntity> employee = employeeRepository.findByEmployeeEmail(request.getEmployeeEmail());
+
+        if (employee.isEmpty()) {
+            throw new EmployeeNotFoundException("Can not find employee with email: " + request.getEmployeeEmail());
+        }
+
         appointment.setDatetime(request.getDatetime());
-        appointment.setEmployee(request.getEmployee());
-        appointment.setEmployeeEmail(request.getEmployeeEmail());
+        appointment.setEmployee(employee.get());
         appointment.setGuest(request.getGuest());
         appointment.setGuestEmail(request.getGuestEmail());
         appointment.setDescription(request.getDescription());

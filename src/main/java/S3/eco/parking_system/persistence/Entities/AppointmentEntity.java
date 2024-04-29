@@ -23,14 +23,12 @@ public class AppointmentEntity {
     @Column
     private String guest;
 
-    @Column
-    private String employee;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    private EmployeeEntity employee;
 
     @Column(name = "guest_email")
     private String guestEmail;
-
-    @Column(name = "employee_email")
-    private String employeeEmail;
 
     @Column(columnDefinition = "TEXT")
     private String description;

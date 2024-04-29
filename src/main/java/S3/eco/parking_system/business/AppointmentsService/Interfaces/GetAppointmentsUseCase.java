@@ -10,10 +10,6 @@ public interface GetAppointmentsUseCase {
 
     AppointmentData getById(Long aLong);
 
-    AppointmentData getByEmployee(String employee);
-
-    AppointmentData getByEmployeeEmail(String employeeEmail);
-
     AppointmentData getByGuest(String guest);
 
     AppointmentData getByGuestEmail(String guestEmail);

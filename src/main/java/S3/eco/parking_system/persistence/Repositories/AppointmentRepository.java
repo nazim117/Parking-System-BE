@@ -21,10 +21,6 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
 
     Optional<AppointmentEntity> findById(Long aLong);
 
-    Optional<AppointmentEntity> findByEmployee(String employee);
-
-    Optional<AppointmentEntity> findByEmployeeEmail(String employeeEmail);
-
     Optional<AppointmentEntity> findByGuest(String guest);
 
     Optional<AppointmentEntity> findByGuestEmail(String guestEmail);
@@ -37,9 +33,11 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
             @Param("month") int month
     );
 
-    @Query("SELECT a FROM S3.eco.parking_system.persistence.Entities.AppointmentEntity a WHERE " +
-            "LOWER(a.employee) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
-            "LOWER(a.employeeEmail) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
+    @Query("SELECT a FROM S3.eco.parking_system.persistence.Entities.AppointmentEntity a " +
+            "INNER JOIN S3.eco.parking_system.persistence.Entities.EmployeeEntity e " +
+            "ON a.employee.id = e.id " +
+            "WHERE LOWER(e.employeeName) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
+            "LOWER(e.employeeEmail) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
             "LOWER(a.guest) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
             "LOWER(a.guestEmail) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
             "LOWER(a.carPlateNumber) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
@@ -51,7 +49,26 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
 
     Optional<AppointmentEntity> findByCarPlateNumber(String carPlateNumber);
 
-    AppointmentEntity findAllByDatetimeAndEmployeeEmailAndGuest(LocalDateTime dateTime, String employeeEmail, String Guest);
+    @Query("SELECT a FROM S3.eco.parking_system.persistence.Entities.AppointmentEntity a " +
+            "INNER JOIN a.employee e " +
+            "WHERE a.datetime = :dateTime " +
+            "AND e.employeeEmail = :employeeEmail " +
+            "AND a.guest = :guest")
+    AppointmentEntity findAllByDatetimeAndEmployeeEmailAndGuest(
+            @Param("dateTime") LocalDateTime dateTime,
+            @Param("employeeEmail") String employeeEmail,
+            @Param("guest") String guest
+    );
 
-    boolean existsByDatetimeAndEmployeeEmailAndGuest(LocalDateTime dateTime, String employeeEmail, String Guest);
+    @Query("SELECT CASE WHEN COUNT(a) > 0 THEN true ELSE false END " +
+            "FROM S3.eco.parking_system.persistence.Entities.AppointmentEntity a " +
+            "INNER JOIN a.employee e " +
+            "WHERE a.datetime = :dateTime " +
+            "AND e.employeeEmail = :employeeEmail " +
+            "AND a.guest = :guest")
+    boolean existsByDatetimeAndEmployeeEmailAndGuest(
+            @Param("dateTime") LocalDateTime dateTime,
+            @Param("employeeEmail") String employeeEmail,
+            @Param("guest") String guest
+    );
 }

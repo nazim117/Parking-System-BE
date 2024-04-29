@@ -2,16 +2,22 @@ package S3.eco.parking_system.business.AppointmentsService.Impl;
 
 import S3.eco.parking_system.business.AppointmentsService.Interfaces.CreateAppointmentsUseCase;
 import S3.eco.parking_system.business.AppointmentsService.Exceptions.AppointmentAlreadyExistsException;
+import S3.eco.parking_system.business.EmployeeService.Exceptions.EmployeeNotFoundException;
 import S3.eco.parking_system.domain.Appointmets.CreateAppointmentRequest;
 import S3.eco.parking_system.persistence.Entities.AppointmentEntity;
+import S3.eco.parking_system.persistence.Entities.EmployeeEntity;
 import S3.eco.parking_system.persistence.Repositories.AppointmentRepository;
+import S3.eco.parking_system.persistence.Repositories.EmployeeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
 public class CreateAppointmentsUseCaseImpl implements CreateAppointmentsUseCase {
     private final AppointmentRepository appointmentRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Override
     public Long createAppointment(CreateAppointmentRequest request) {
@@ -25,10 +31,15 @@ public class CreateAppointmentsUseCaseImpl implements CreateAppointmentsUseCase 
     }
 
     private void saveNewAppointment(CreateAppointmentRequest request) {
+        Optional<EmployeeEntity> employee = employeeRepository.findByEmployeeEmail(request.getEmployeeEmail());
+
+        if (employee.isEmpty()) {
+            throw new EmployeeNotFoundException("Can not find employee with email: " + request.getEmployeeEmail());
+        }
+
         AppointmentEntity newAppointment = AppointmentEntity.builder()
                 .datetime(request.getDatetime())
-                .employee(request.getEmployee())
-                .employeeEmail(request.getEmployeeEmail())
+                .employee(employee.get())
                 .guest(request.getGuest())
                 .guestEmail(request.getGuestEmail())
                 .description(request.getDescription())
