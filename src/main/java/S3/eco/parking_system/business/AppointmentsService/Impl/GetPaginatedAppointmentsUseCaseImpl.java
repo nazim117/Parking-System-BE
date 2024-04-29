@@ -21,6 +21,7 @@ public class GetPaginatedAppointmentsUseCaseImpl implements GetPaginatedAppointm
     private final AppointmentRepository appointmentRepository;
     private final ConverterAppointmentsData converter;
 
+    @Override
     public Page<AppointmentData> getAppointmentsByPage(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<AppointmentEntity> appointmentPage = appointmentRepository.findAllByOrderByDatetimeDesc(pageable);
