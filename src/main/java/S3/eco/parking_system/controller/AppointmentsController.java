@@ -86,12 +86,12 @@ public class AppointmentsController {
     }
 
     @PostMapping()
-    public ResponseEntity<Long> createAppointment(@RequestBody CreateAppointmentRequest request) {
+    public ResponseEntity<?> createAppointment(@RequestBody CreateAppointmentRequest request) {
         try {
             Long appointmentId = createAppointmentsUseCase.createAppointment(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(appointmentId);
-        } catch (AppointmentAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (AppointmentAlreadyExistsException | EmployeeNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 
@@ -110,8 +110,10 @@ public class AppointmentsController {
         try {
             editAppointmentsUseCase.editAppointment(id, request);
             return ResponseEntity.noContent().build();
-        } catch (AppointmentNotFoundException | EmployeeNotFoundException e) {
-            return ResponseEntity.notFound().build();
+        } catch (AppointmentNotFoundException e) {
+            return ResponseEntity.notFound().header("X-Error-Message", "Appointment not found.").build();
+        } catch (EmployeeNotFoundException e) {
+            return ResponseEntity.notFound().header("X-Error-Message", "Employee not found.").build();
         }
     }
 }

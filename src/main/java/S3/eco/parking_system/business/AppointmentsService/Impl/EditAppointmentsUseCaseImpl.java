@@ -27,7 +27,7 @@ public class EditAppointmentsUseCaseImpl implements EditAppointmentsUseCase {
 
         Optional<EmployeeEntity> employee = employeeRepository.findByEmployeeEmailAndEmployeeName(request.getEmployeeEmail(), request.getEmployee());
         if (employee.isEmpty()) {
-            throw new EmployeeNotFoundException("Can not find employee with email: " + request.getEmployeeEmail());
+            throw new EmployeeNotFoundException("Can not find employee with email and name: " + request.getEmployeeEmail() + ", " + request.getEmployee());
         }
 
         appointment.setDatetime(request.getDatetime());

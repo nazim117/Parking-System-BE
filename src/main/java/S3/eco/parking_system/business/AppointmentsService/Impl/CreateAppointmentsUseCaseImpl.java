@@ -34,7 +34,7 @@ public class CreateAppointmentsUseCaseImpl implements CreateAppointmentsUseCase 
         Optional<EmployeeEntity> employee = employeeRepository.findByEmployeeEmailAndEmployeeName(request.getEmployeeEmail(), request.getEmployee());
 
         if (employee.isEmpty()) {
-            throw new EmployeeNotFoundException("Can not find employee with email: " + request.getEmployeeEmail());
+            throw new EmployeeNotFoundException("Can not find employee with email and name: " + request.getEmployeeEmail() + ", " + request.getEmployee());
         }
 
         AppointmentEntity newAppointment = AppointmentEntity.builder()
