@@ -21,7 +21,7 @@ public class ConverterAppointmentsData {
         return AppointmentData.builder()
                 .id(entity.getId())
                 .datetime(entity.getDatetime())
-                .employee(entity.getEmployee().getEmployeeEmail())
+                .employee(entity.getEmployee().getEmployeeName())
                 .employeeEmail(entity.getEmployee().getEmployeeEmail())
                 .guest(entity.getGuest())
                 .guestEmail(entity.getGuestEmail())

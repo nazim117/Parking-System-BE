@@ -21,11 +21,11 @@ public class EditAppointmentsUseCaseImpl implements EditAppointmentsUseCase {
 
     @Override
     public void editAppointment(Long appointmentId, EditAppointmentRequest request) {
-        AppointmentEntity appointment = appointmentRepository.findById(appointmentId)
-                .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found with id: " + appointmentId));
+        Optional<AppointmentEntity> optionalAppointment = appointmentRepository.findById(appointmentId);
+        AppointmentEntity appointment = optionalAppointment
+                .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found for id: " + appointmentId));
 
-        Optional<EmployeeEntity> employee = employeeRepository.findByEmployeeEmail(request.getEmployeeEmail());
-
+        Optional<EmployeeEntity> employee = employeeRepository.findByEmployeeEmailAndEmployeeName(request.getEmployeeEmail(), request.getEmployee());
         if (employee.isEmpty()) {
             throw new EmployeeNotFoundException("Can not find employee with email: " + request.getEmployeeEmail());
         }

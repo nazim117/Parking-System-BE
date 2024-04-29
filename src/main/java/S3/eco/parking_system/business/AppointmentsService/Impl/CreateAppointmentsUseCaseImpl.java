@@ -31,7 +31,7 @@ public class CreateAppointmentsUseCaseImpl implements CreateAppointmentsUseCase 
     }
 
     private void saveNewAppointment(CreateAppointmentRequest request) {
-        Optional<EmployeeEntity> employee = employeeRepository.findByEmployeeEmail(request.getEmployeeEmail());
+        Optional<EmployeeEntity> employee = employeeRepository.findByEmployeeEmailAndEmployeeName(request.getEmployeeEmail(), request.getEmployee());
 
         if (employee.isEmpty()) {
             throw new EmployeeNotFoundException("Can not find employee with email: " + request.getEmployeeEmail());

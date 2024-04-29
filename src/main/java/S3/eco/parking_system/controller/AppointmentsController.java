@@ -3,6 +3,7 @@ package S3.eco.parking_system.controller;
 import S3.eco.parking_system.business.AppointmentsService.Interfaces.*;
 import S3.eco.parking_system.business.AppointmentsService.Exceptions.AppointmentAlreadyExistsException;
 import S3.eco.parking_system.business.AppointmentsService.Exceptions.AppointmentNotFoundException;
+import S3.eco.parking_system.business.EmployeeService.Exceptions.EmployeeNotFoundException;
 import S3.eco.parking_system.domain.Appointmets.AppointmentData;
 import S3.eco.parking_system.domain.Appointmets.CreateAppointmentRequest;
 import S3.eco.parking_system.domain.Appointmets.EditAppointmentRequest;
@@ -109,7 +110,7 @@ public class AppointmentsController {
         try {
             editAppointmentsUseCase.editAppointment(id, request);
             return ResponseEntity.noContent().build();
-        } catch (AppointmentNotFoundException e) {
+        } catch (AppointmentNotFoundException | EmployeeNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
