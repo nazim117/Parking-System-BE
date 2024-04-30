@@ -32,4 +32,16 @@ public class GetPaginatedEmployeesUseCaseImpl implements GetPaginatedEmployeesUs
 
         return employeePage.map(converter::convertToEmployeeData);
     }
+
+    @Override
+    public Page<EmployeeData> getEmployeeByName(int pageNumber, int pageSize, String name) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<EmployeeEntity> employeePage = employeeRepository.findAllByEmployeeName(name, pageable);
+
+        if (employeePage.isEmpty()) {
+            throw new AppointmentNotFoundException("No employees found on page: " + pageNumber);
+        }
+
+        return employeePage.map(converter::convertToEmployeeData);
+    }
 }
