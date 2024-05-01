@@ -21,7 +21,7 @@ public class EditEmployeeUseCaseImpl implements EditEmployeeUseCase {
     public void editEmployee(Long employeeId, EditEmployeeRequest request) {
         Optional<EmployeeEntity> optionalEmployee = employeeRepository.findById(employeeId);
         EmployeeEntity employeeEntity = optionalEmployee
-                .orElseThrow(() -> new AppointmentNotFoundException("Employee with id: " + employeeId + " not found"));
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with id: " + employeeId + " not found"));
 
         employeeEntity.setEmployeeEmail(request.getEmail());
         employeeEntity.setEmployeeName(request.getName());

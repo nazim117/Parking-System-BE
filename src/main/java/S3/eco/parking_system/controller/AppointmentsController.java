@@ -4,13 +4,13 @@ import S3.eco.parking_system.business.AppointmentsService.Interfaces.*;
 import S3.eco.parking_system.business.AppointmentsService.Exceptions.AppointmentAlreadyExistsException;
 import S3.eco.parking_system.business.AppointmentsService.Exceptions.AppointmentNotFoundException;
 import S3.eco.parking_system.business.EmployeeService.Exceptions.EmployeeNotFoundException;
+import S3.eco.parking_system.business.NotificationsService.Interfaces.EmailSenderUseCase;
 import S3.eco.parking_system.domain.Appointmets.AppointmentData;
 import S3.eco.parking_system.domain.Appointmets.CreateAppointmentRequest;
 import S3.eco.parking_system.domain.Appointmets.EditAppointmentRequest;
+import S3.eco.parking_system.utils.EmailMessages;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +26,8 @@ public class AppointmentsController {
     private final DeleteAppointmentsUseCase deleteAppointmentsUseCase;
     private final EditAppointmentsUseCase editAppointmentsUseCase;
     private final GetPaginatedAppointmentsUseCase getPaginatedAppointmentsUseCase;
+    private final EmailSenderUseCase emailSenderService;
+
     @GetMapping()
     public ResponseEntity<List<AppointmentData>> getAllAppointment() {
         try {
@@ -89,6 +91,14 @@ public class AppointmentsController {
     public ResponseEntity<?> createAppointment(@RequestBody CreateAppointmentRequest request) {
         try {
             Long appointmentId = createAppointmentsUseCase.createAppointment(request);
+
+            String confirmationBody = EmailMessages.APPOINTMENT_CONFIRMATION_BODY
+                            .replace("${guestName}",request.getGuest())
+                            .replace("${date}", request.getDatetime().toLocalDate().toString())
+                            .replace("${time}", request.getDatetime().toLocalTime().toString())
+                            .replace("${employeeName}", request.getEmployee());
+
+            emailSenderService.sendEmail(request.getGuestEmail(), EmailMessages.APPOINTMENT_CONFIRMATION_SUBJECT, confirmationBody);
             return ResponseEntity.status(HttpStatus.CREATED).body(appointmentId);
         } catch (AppointmentAlreadyExistsException | EmployeeNotFoundException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
