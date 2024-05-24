@@ -46,6 +46,8 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
             Pageable pageable
     );
 
+    @Query("SELECT a FROM S3.eco.parking_system.persistence.Entities.AppointmentEntity a " +
+            "WHERE REPLACE(LOWER(a.carPlateNumber), ' ', '') = REPLACE(LOWER(?1), ' ', '')")
     Optional<AppointmentEntity> findByCarPlateNumber(String carPlateNumber);
 
     @Query("SELECT a FROM S3.eco.parking_system.persistence.Entities.AppointmentEntity a " +
