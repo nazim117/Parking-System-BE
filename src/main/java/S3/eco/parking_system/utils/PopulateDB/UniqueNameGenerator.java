@@ -1,29 +1,44 @@
 package S3.eco.parking_system.utils.PopulateDB;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
-public enum UniqueNameGenerator {
-    INSTANCE;
-    private final String[] firstNames = {"John", "Jane", "Sam", "Sally", "Mike", "Ann", "Sander", "Danila", "Nazim", "Angel", "Claudiu", "George", "Nick", "Ivan", "Honeybadger", "Lil Raccoon", "Lil Charles", "Lil Dickie"};
-    private final String[] lastNames = {"Doe", "Smith", "Brown", "Johnson", "White", "Black", "Urmum", "Urdad", "Urgeyi", "Urbith","Smakdaat"};
-    private final String[] middleNames = {"Letsgoo", "Fker", "Bad", "The Rock", "Whitechapel", "Whiteknight", "Biggerdickson", "Urrdad", "Urgeyi", "Urbith","Armpit","Johnson","Uvuvueuvuweuwuugwemubwemosas"};
+public class UniqueNameGenerator {
+    private static final String[] FIRST_NAMES = {"John", "Jane", "Sam", "Sally", "Mike", "Ann", "Sander", "Danila", "Nazim", "Angel", "Claudiu", "George", "Nick", "Ivan"};
+    private static final String[] LAST_NAMES = {"Doe", "Smith", "Brown", "Johnson", "White", "Black"};
+    private static final int MAX_COMBINATIONS = FIRST_NAMES.length * (FIRST_NAMES.length-1) * LAST_NAMES.length;
 
-    private final Random random = new Random();
-    private final HashSet<String> uniqueNames = new HashSet<>();
+    private final Random random;
 
-    public ArrayList<String> generateUniqueName(int amountOfNames) {
-        int i = 0;
+    public UniqueNameGenerator(Random random) {
+        this.random = random;
+    }
 
-        while (i < amountOfNames) {
-            String name = firstNames[random.nextInt(firstNames.length)] + " " +firstNames[random.nextInt(middleNames.length)] + " " +
-                    lastNames[random.nextInt(lastNames.length)];
-            if (!uniqueNames.contains(name)) {
-                uniqueNames.add(name);
-                i += 1;
-            }
+    private String pickMiddleName(int firstNameIndex) {
+        int index = random.nextInt(FIRST_NAMES.length - 1);
+        if (index >= firstNameIndex) index += 1;
+
+        return FIRST_NAMES[index];
+    }
+
+    public Set<String> generateUniqueNames(int count) {
+        if (MAX_COMBINATIONS < count) {
+            throw new IllegalStateException("Cannot generate " + count + " unique name combinations, " +
+                    "the current dataset only allows for " + MAX_COMBINATIONS + " unique name combinations");
         }
-        return new ArrayList<>(uniqueNames);
+        Set<String> uniqueNames = new HashSet<>(count);
+
+        while (uniqueNames.size() < count) {
+            int firstNameIndex = random.nextInt(FIRST_NAMES.length);
+            String firstName = FIRST_NAMES[firstNameIndex];
+            String middleName = pickMiddleName(firstNameIndex);
+            String lastName = LAST_NAMES[random.nextInt(LAST_NAMES.length)];
+
+            String fullName = firstName + " " + middleName + " " + lastName;
+            uniqueNames.add(fullName);
+        }
+
+        return uniqueNames;
     }
 }

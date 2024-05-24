@@ -20,6 +20,8 @@ public class AppointmentData {
 
     private String employeeEmail;
 
+    private long employeeId;
+
     private String description;
 
     private String carPlateNumber;

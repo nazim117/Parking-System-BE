@@ -1,9 +1,9 @@
 package S3.eco.parking_system.persistence.Entities;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Entity(name = "appointments")
 @Getter
@@ -23,8 +23,7 @@ public class AppointmentEntity {
     @Column
     private String guest;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    @ManyToOne()
     private EmployeeEntity employee;
 
     @Column(name = "guest_email")

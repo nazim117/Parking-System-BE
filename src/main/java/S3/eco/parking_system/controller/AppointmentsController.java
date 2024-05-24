@@ -1,8 +1,8 @@
 package S3.eco.parking_system.controller;
 
-import S3.eco.parking_system.business.AppointmentsService.Interfaces.*;
 import S3.eco.parking_system.business.AppointmentsService.Exceptions.AppointmentAlreadyExistsException;
 import S3.eco.parking_system.business.AppointmentsService.Exceptions.AppointmentNotFoundException;
+import S3.eco.parking_system.business.AppointmentsService.Interfaces.*;
 import S3.eco.parking_system.business.EmployeeService.Exceptions.EmployeeNotFoundException;
 import S3.eco.parking_system.business.NotificationsService.Interfaces.EmailSenderUseCase;
 import S3.eco.parking_system.domain.Appointmets.AppointmentData;
@@ -19,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/appointments")
+@CrossOrigin
 @AllArgsConstructor
 public class AppointmentsController {
     private final GetAppointmentsUseCase getAppointmentsUseCase;

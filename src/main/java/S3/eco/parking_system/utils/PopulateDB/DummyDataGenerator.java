@@ -12,67 +12,122 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
+@SuppressWarnings("FieldCanBeLocal")
 @Component
 public class DummyDataGenerator implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(DummyDataGenerator.class);
+
     private final AppointmentRepository appointmentRepository;
     private final EmployeeRepository employeeRepository;
-    private ArrayList<LocalDateTime> generatedDates = new ArrayList<>();
-    private  ArrayList<String> generatedPlates = new ArrayList<>();
-    private ArrayList<String> generatedNames=new ArrayList<>();
-    private ArrayList<String> generatedEmails=new ArrayList<>();
+    private final Random random;
+
+    // Config options
+
+    // Fixed seed or dynamic one
+    private final long seed = 0;
+    //long seed = System.currentTimeMillis();
+
+    private final int employeeCount = 20;
+    private final int appointmentCount = 1000;
+    private final int startHour = 9;
+    private final int endHour = 18;
+    private final int dayRange = 15;
+
+    private List<LocalDateTime> generatedDates;
+    private List<String> generatedPlates;
+    private List<String> generatedNames;
+    private List<String> generatedEmails;
+
+    private List<EmployeeEntity> generatedEmployees;
+    private Collection<AppointmentEntity> generatedAppointments;
 
     public DummyDataGenerator(AppointmentRepository appointmentRepository,
                               EmployeeRepository employeeRepository) {
         this.appointmentRepository = appointmentRepository;
         this.employeeRepository = employeeRepository;
+
+        this.random = new Random(seed);
+
+        generatedDates = new ArrayList<>();
+        generatedPlates = new ArrayList<>();
+        generatedNames = new ArrayList<>();
+        generatedEmails = new ArrayList<>();
     }
 
     @Override
-    public void run(String...args) throws Exception{
+    public void run(String...args) {
         LOGGER.info("Populating DB with dummy data");
 
-        generatedDates = DateGenerator.INSTANCE.generateDateTime(1000);
-        generatedPlates = DutchLicensePlateGenerator.INSTANCE.generateLicensePlates(2300);
-        generatedNames = UniqueNameGenerator.INSTANCE.generateUniqueName(2300);
-        generatedEmails = UniqueEmailGenerator.INSTANCE.generateUniqueEmails(generatedNames,2300);
-        populateDummyData(1000);
+        // Generators
+        AppointmentDateGenerator dateGen = new AppointmentDateGenerator(random, startHour, endHour);
+        DutchLicensePlateGenerator plateGen = new DutchLicensePlateGenerator(random);
+        UniqueNameGenerator nameGen = new UniqueNameGenerator(random);
+        UniqueEmailGenerator emailGen = new UniqueEmailGenerator(random);
+
+        // Generate employee and appointment data together
+        LOGGER.info("Generating dummy data");
+        generatedDates = new ArrayList<>(dateGen.generateDateTimesAround(LocalDateTime.now(), dayRange, appointmentCount));
+        generatedPlates = new ArrayList<>(plateGen.generateUniqueLicensePlates(appointmentCount));
+        generatedNames = new ArrayList<>(nameGen.generateUniqueNames(employeeCount + appointmentCount));
+        generatedEmails = new ArrayList<>(emailGen.generateUniqueEmails(generatedNames,employeeCount + appointmentCount));
+
+        // Generate objects from dummy data and save in DB
+        LOGGER.info("Generating " + employeeCount + " employee" + (employeeCount == 1 ? "" : "s") + "...");
+        populateEmployees();
+        LOGGER.info("Generating " + appointmentCount + " appointment" + (appointmentCount == 1 ? "" : "s") + "...");
+        populateAppointments();
 
         LOGGER.info("Data population complete");
     }
 
-    private void populateDummyData(int amountOfRows){
-        List<EmployeeEntity> employees = new ArrayList<>();
-        List<AppointmentEntity> appointments = new ArrayList<>();
+    private void populateEmployees() {
+        generatedEmployees = new ArrayList<>();
 
-        for (int i = 0; i < amountOfRows; i++) {
+        for (int i = 0; i < employeeCount; i++) {
             EmployeeEntity employee = new EmployeeEntity();
-            employee.setId((long)1+i);
-            employee.setEmployeeName(generatedNames.get(i+1000));
+            employee.setEmployeeName(generatedNames.get(i));
             employee.setEmployeeEmail(generatedEmails.get(i));
-            employees.add(employee);
+            generatedEmployees.add(employee);
         }
-        employeeRepository.saveAll(employees);
+        generatedEmployees = employeeRepository.saveAll(generatedEmployees);
+    }
 
-        for (int i = 0; i < amountOfRows; i++) {
+    private void populateAppointments(){
+        generatedAppointments = new ArrayList<>();
+
+        for (int i = 0; i < appointmentCount; i++) {
             AppointmentEntity appointment = new AppointmentEntity();
-            appointment.setId((long)1+i);
             appointment.setDatetime(generatedDates.get(i));
-            appointment.setGuest(generatedNames.get(i));
-            appointment.setEmployee(employees.get(i));
             appointment.setDescription("dummy description");
-            appointment.setGuestEmail(generatedEmails.get(i+1000));
-            appointment.setCarPlateNumber(generatedPlates.get(i+1000));
-            appointments.add(appointment);
+            appointment.setCarPlateNumber(generatedPlates.get(i));
+            appointment.setEmployee(generatedEmployees.get(random.nextInt(generatedEmployees.size())));
+
+            // These options take names and emails
+            appointment.setGuest(generatedNames.get(employeeCount + i));
+            appointment.setGuestEmail(generatedEmails.get(employeeCount + i));
+
+            generatedAppointments.add(appointment);
         }
-        appointmentRepository.saveAll(appointments);
+        appointmentRepository.saveAll(generatedAppointments);
     }
 
     @PreDestroy
     public void cleanup() {
-        appointmentRepository.deleteAll(); // Clean up on shutdown
-        System.out.println("Dummy data deleted.");
+        // I would prefer to only delete the appointments
+        // and employees that were autogenerated, but
+        // there are cascading side effects, because if manually
+        // created appointments depend on dummy employees,
+        // they would still be deleted. I tweaked the debug
+        // messages to better show this. - András
+        LOGGER.info("Cleanup of dummy data triggered.");
+        LOGGER.info("Deleting all appointments...");
+        appointmentRepository.deleteAll();
+        LOGGER.info("Deleting all employees...");
+        employeeRepository.deleteAll();
+        LOGGER.info("Dummy data deleted.");
     }
 }

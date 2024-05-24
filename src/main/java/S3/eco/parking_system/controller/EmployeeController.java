@@ -1,9 +1,8 @@
 package S3.eco.parking_system.controller;
 
-import S3.eco.parking_system.business.AppointmentsService.Exceptions.AppointmentNotFoundException;
-import S3.eco.parking_system.business.EmployeeService.Exceptions.*;
+import S3.eco.parking_system.business.EmployeeService.Exceptions.EmployeeAlreadyExistsException;
+import S3.eco.parking_system.business.EmployeeService.Exceptions.EmployeeNotFoundException;
 import S3.eco.parking_system.business.EmployeeService.Interfaces.*;
-import S3.eco.parking_system.domain.Appointmets.EditAppointmentRequest;
 import S3.eco.parking_system.domain.Employees.CreateEmployeeRequest;
 import S3.eco.parking_system.domain.Employees.EditEmployeeRequest;
 import S3.eco.parking_system.domain.Employees.EmployeeData;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/employee")
+@CrossOrigin
 @AllArgsConstructor
 public class EmployeeController {
     private final GetPaginatedEmployeesUseCase getPaginatedEmployeesUseCase;
