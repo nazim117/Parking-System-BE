@@ -4,6 +4,7 @@ import S3.eco.parking_system.persistence.Entities.AppointmentEntity;
 import S3.eco.parking_system.persistence.Entities.EmployeeEntity;
 import S3.eco.parking_system.persistence.Repositories.AppointmentRepository;
 import S3.eco.parking_system.persistence.Repositories.EmployeeRepository;
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

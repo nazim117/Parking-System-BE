@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class DeleteEmployeesUseCaseImpl implements DeleteEmployeesUseCase {
     private final EmployeeRepository employeeRepository;
+
     @Override
     public void deleteEmployee(Long employeeId) {
         if (!employeeRepository.existsById(employeeId)) {

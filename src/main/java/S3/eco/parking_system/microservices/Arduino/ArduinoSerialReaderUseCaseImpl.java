@@ -1,10 +1,12 @@
-package S3.eco.parking_system.microservices;
+package S3.eco.parking_system.microservices.Arduino;
 
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+@Async
 @Component
 public class ArduinoSerialReaderUseCaseImpl implements ArduinoSerialReaderUseCase {
     private StringBuilder dataBuffer = new StringBuilder(); // Buffer for storing incoming data

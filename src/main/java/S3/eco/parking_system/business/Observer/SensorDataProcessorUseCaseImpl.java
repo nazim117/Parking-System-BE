@@ -1,9 +1,10 @@
 package S3.eco.parking_system.business.Observer;
 
-import S3.eco.parking_system.microservices.ArduinoSerialReaderUseCaseImpl;
-import S3.eco.parking_system.microservices.SensorDataProcessorUseCase;
+import S3.eco.parking_system.microservices.Arduino.ArduinoSerialReaderUseCaseImpl;
+import S3.eco.parking_system.microservices.Arduino.SensorDataProcessorUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component

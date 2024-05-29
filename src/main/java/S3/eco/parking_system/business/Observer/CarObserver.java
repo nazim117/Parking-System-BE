@@ -1,6 +1,9 @@
 package S3.eco.parking_system.business.Observer;
 
-import S3.eco.parking_system.microservices.*;
+import S3.eco.parking_system.microservices.Arduino.ArduinoSerialReaderUseCase;
+import S3.eco.parking_system.microservices.Arduino.SensorDataProcessorUseCase;
+import S3.eco.parking_system.microservices.PlateDetection.CarPlateProcessorUseCase;
+import S3.eco.parking_system.microservices.PlateDetection.PlateDetectionReceiverUseCase;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Async;

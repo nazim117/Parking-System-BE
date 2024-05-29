@@ -51,6 +51,11 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
     Optional<AppointmentEntity> findByCarPlateNumber(String carPlateNumber);
 
     @Query("SELECT a FROM S3.eco.parking_system.persistence.Entities.AppointmentEntity a " +
+            "WHERE REPLACE(LOWER(a.carPlateNumber), ' ', '') = REPLACE(LOWER(?1), ' ', '') " +
+            "AND a.datetime BETWEEN ?2 AND ?3")
+    Optional<AppointmentEntity> findByCarPlateNumberAndTimeRange(String carPlateNumber, LocalDateTime now, LocalDateTime fourHoursLater);
+
+    @Query("SELECT a FROM S3.eco.parking_system.persistence.Entities.AppointmentEntity a " +
             "INNER JOIN a.employee e " +
             "WHERE a.datetime = :dateTime " +
             "AND e.employeeEmail = :employeeEmail " +
