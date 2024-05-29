@@ -2,16 +2,15 @@ package S3.eco.parking_system.microservices;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
 
+@Async
 @Component
 public class PlateDetectionReceiverUseCaseImpl implements PlateDetectionReceiverUseCase{
     private final String HOST = "localhost";
