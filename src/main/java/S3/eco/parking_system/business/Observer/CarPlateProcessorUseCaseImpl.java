@@ -55,7 +55,6 @@ public class CarPlateProcessorUseCaseImpl implements CarPlateProcessorUseCase {
 
         // SensorDataProcessorUseCase.getCounter() < parkingSpaces
         // Think about this line
-        LOGGER.info(String.valueOf(currentTime - lastEntryTime));
         if (appointmentEntity.isPresent() && currentTime - lastEntryTime > DEBOUNCE_TIME) {
             lastEntryTime = currentTime;
             String employeeEmail = appointmentEntity.get().getEmployee().getEmployeeEmail();
