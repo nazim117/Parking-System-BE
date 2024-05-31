@@ -15,11 +15,21 @@ public class EmailMessages {
 
             Sioux Technologies""";
 
-    public static final String APPOINTMENT_REMINDER_SUBJECT = "Appointment reminder";
+    public static final String APPOINTMENT_REMINDER_EMPLOYEE_SUBJECT = "Client is here";
 
-    public static final String APPOINTMENT_REMINDER_BODY = "Hello (guest name), just a friendly reminder about your appointment on (date) at (time)";
+    public static final String APPOINTMENT_REMINDER_EMPLOYEE_BODY = """
+            Hello ${employeeName},
+            Your client ${guestName} has arrived
+            Your meeting is at ${meetingTime} on ${meetingDate}
+            Get ready!
+            """;
 
-    public static final String APPOINTMENT_ASSISTANCE_SUBJECT = "Assistance notification";
+    public static final String APPOINTMENT_NO_PARKING_SPACE_SUBJECT = "No parking available";
 
-    public static final String APPOINTMENT_ASSISTANCE_BODY = "(Here guest will get notif if we have enough space for his transport)";
+    public static final String APPOINTMENT_NO_PARKING_SPACE_BODY = """
+            Hello ${guestName},
+            
+            We do not have any available parking space at the moment
+            Go to <a href="https://www.google.com/maps/search/?api=1&query=Esp, 5633 AJ Eindhoven" target="_blank">Esp, 5633 AJ Eindhoven</a>
+            """;
 }
