@@ -30,6 +30,6 @@ public class EmailMessages {
             Hello ${guestName},
             
             We do not have any available parking space at the moment
-            Go to <a href="https://www.google.com/maps/search/?api=1&query=Esp, 5633 AJ Eindhoven" target="_blank">Esp, 5633 AJ Eindhoven</a>
+            Go to https://www.google.com/maps/search/?api=1&query=Esp,5633AJEindhoven
             """;
 }

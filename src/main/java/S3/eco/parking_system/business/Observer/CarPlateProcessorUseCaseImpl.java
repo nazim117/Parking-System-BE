@@ -63,7 +63,7 @@ public class CarPlateProcessorUseCaseImpl implements CarPlateProcessorUseCase {
 
         //When parking is full notify guest that they have to go to another parking
         if(newCarAmount == parkingSpaces){
-            currentCarAmount = newCarAmount;
+            sensorDataProcessorUseCase.setCounter(currentCarAmount);
             String emailBody = EmailMessages.APPOINTMENT_NO_PARKING_SPACE_BODY
                     .replace("${guestName}", guestName);
 

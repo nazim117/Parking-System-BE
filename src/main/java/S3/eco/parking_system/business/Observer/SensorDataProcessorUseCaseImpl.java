@@ -12,7 +12,7 @@ public class SensorDataProcessorUseCaseImpl implements SensorDataProcessorUseCas
     private static int counter = 0;
     private static final Logger LOGGER = LoggerFactory.getLogger(ArduinoSerialReaderUseCaseImpl.class);
 
-    private static final long DEBOUNCE_TIME = 1000; // Debounce time in milliseconds
+    private static final long DEBOUNCE_TIME = 15_000;
     private long lastEntryTime = 0;
     private long lastExitTime = 0;
     private boolean lastStateWasEntry = false;
@@ -75,5 +75,10 @@ public class SensorDataProcessorUseCaseImpl implements SensorDataProcessorUseCas
     @Override
     public int getCounter() {
         return counter;
+    }
+
+    @Override
+    public void setCounter(int counter) {
+        this.counter = counter;
     }
 }
